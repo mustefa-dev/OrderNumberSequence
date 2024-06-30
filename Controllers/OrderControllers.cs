@@ -45,6 +45,6 @@ namespace OrderNumberSequence.Controllers
         [HttpPut("Cancel/{id}")]
         public async Task<ActionResult<string>> Cancel(Guid id) => Ok(await _orderServices.Cancel(id, Id));
         
-        
-    }
+        [HttpPost("bulk")]
+        public async Task<ActionResult<List<Order>>> CreateBulk([FromBody] OrderForm orderForm) => Ok(await _orderServices.CreateBulk(orderForm, Id));    }
 }
