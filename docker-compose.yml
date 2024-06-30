@@ -1,0 +1,6 @@
+﻿services:
+  ordernumbersequuence:
+    image: ordernumbersequuence
+    build:
+      context: .
+      dockerfile: Dockerfile
