@@ -17,6 +17,7 @@ public static class ApplicationServicesExtension
         services.AddAutoMapper(typeof(UserMappingProfile).Assembly);
         services.AddScoped<ITokenService, TokenService>();
         services.AddScoped<IRepositoryWrapper, RepositoryWrapper>();
+        services.AddScoped<OrderNumberGenerator>();
         services.AddScoped<IUserService, UserService>();
         // here to add
 services.AddScoped<IOrderServices, OrderServices>();

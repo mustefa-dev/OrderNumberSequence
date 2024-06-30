@@ -13,7 +13,8 @@ public class UserMappingProfile : Profile
     {
         var baseUrl = "http://localhost:5051/";
 
-       
+        CreateMap<Order, Order>();
+
         CreateMap<AppUser, UserDto>();
         CreateMap<UpdateUserForm, AppUser>();
         CreateMap<AppUser, TokenDTO>();

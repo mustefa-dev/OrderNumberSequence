@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using OneSignalApi.Model;
 using OrderNumberSequence.DATA.DTOs;
 using OrderNumberSequence.Entities;
+using OrderNumberSequence.Helpers;
 using OrderNumberSequence.Helpers.OneSignal;
 using OrderNumberSequence.Interface;
 
@@ -28,20 +29,21 @@ public class OrderServices : IOrderServices
 {
     private readonly IMapper _mapper;
     private readonly IRepositoryWrapper _repositoryWrapper;
-
-
+    private readonly OrderNumberGenerator _orderNumberGenerator;
     public OrderServices(
         IMapper mapper,
-        IRepositoryWrapper repositoryWrapper)
+        IRepositoryWrapper repositoryWrapper, OrderNumberGenerator orderNumberGenerator)
     {
         _mapper = mapper;
         _repositoryWrapper = repositoryWrapper;
+        _orderNumberGenerator = orderNumberGenerator;
     }
 
 
     public async Task<(Order? order, string? error)> Create(OrderForm orderForm, Guid userId)
     {
         var order = _mapper.Map<Order>(orderForm);
+        order.OrderNumber = await _orderNumberGenerator.GetNextOrderNumber();
 
         var car = await _repositoryWrapper.Product.Get(x => x.Id == orderForm.OrderProducts.FirstOrDefault().ProductId);
         if (car == null) return (null, "Car not found");
@@ -131,7 +133,8 @@ public class OrderServices : IOrderServices
         if (delete == null) return (null, "لا يمكن حذف الطلب");
         return (order, null);
     }
-        
     
+
+     
 
 }
